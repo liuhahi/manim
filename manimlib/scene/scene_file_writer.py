@@ -307,6 +307,7 @@ class SceneFileWriter(object):
                 fp.write("file \'{}\'\n".format(pf_path))
 
         movie_file_path = self.get_movie_file_path()
+        print('movie file_path is', movie_file_path)
         commands = [
             FFMPEG_BIN,
             '-y',  # overwrite output file if it exists

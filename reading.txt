@@ -1,0 +1,76 @@
+
+question paragraph:
+Here is the question, Rar the Cat went to a hotel.
+He realised that floors containing 4 and 13 as substrings are omitted from the floor numberings.
+we will refer this as lucky numbering scheme.
+
+So he wants to find a way to convert floors between the lucky and conventional numbering scheme.
+For example floor 6 in the lucky numbering scheme will be floor 5 in the conventional numbering scheme.
+and 15 will be converted to 12 respectively
+
+floors:
+This is what we have, a lucky numbering scheme and a conventional numbering scheme 
+When we convert a lucky number to conventional number
+if a given number contains 4 or 13 as substrings
+we return -1, because they are not in lucky numbering scheme.
+
+countformzero:
+What about other cases that contain neither 4 nor 13?
+The most straightforward approach is to do it the other way first, convert from conventional number to lucky number
+start counting from 1 and whenever you see an unlucky number you plus 1
+until the lucky number equals to the target number, then you return the original conventional number
+Sounds easy right? but if the number has more digits, this turns out to be very slow.
+because you have to go throught all the integers that are smaller than the target number.
+Any better approach? 
+
+digitbydigit
+Let's try another approach, process number digit by digit
+we can see this number 25 as 2*10 + 5*1
+2*10 counts total lucky numbers from 1 to 20, and 5*1 counts from 21 to 25
+the results will be 17 and 4 respectively
+so in total we get 21, and this is the conventional number of 25
+
+
+dpfunction:
+This approach is called dynamic programming
+Dynamic Programming is a method for solving a complex problem by breaking it down 
+into a collection of simpler subproblems, solving each of those subproblems just once, 
+and storing their solutions using a memory-based data structure
+Let's define a function called dp with 2 parameters to be passed in
+s stands for starting number
+d is the number of digits
+this dp function should calulate the total number of such floors and return it
+Example, dp(4, 3) counts all the 4 digit numbers start with 3
+and dp(2, 5) counts all the 2 digit numbers start with 5
+
+dptable:
+
+Let's fastforward to this dptable from dp(0,0) to dp(9,9)
+I will explain how to write the dp function later
+Some paterns can be observed in this table,
+in the 5th column, we got zeros from all the rows.
+it means, any number starts with 4 will not be counted, because they contains unlucky number 4
+Similarly all the columns in the first row returns zero, because it has zero digit
+But what about this? 
+an n-digit number starts with 0, what does it mean?
+
+dpexample:
+let's say n equals to 2
+a 2-digit number starts with 0 literally means all the single digit numbers
+00, 01, 02, 03, 04, 05, 06, 07, 08, 09
+9 out of 10 are valid, 
+so dp(2, 0) should return 9
+if n equals to 3
+a 3-digit number start with 0 means all the two digit numbers from 010 to 099,
+however you don't have to count that, what you need to do is to convert it to sum of 2-digit numbers 
+dp(3, 0) = dp(1, 2) + dp(2, 2) + dp(3, 2) + ... + dp(9, 2)
+
+
+dpscene:
+However by using this method,there is one case has to be taken into consideration
+Let's take a look of this example, a 6 digit number starts with 2
+We process it from left to right.
+for the next digit you always have 9 possibilities to choose from
+But since we process it from left to right, so we don't know what the next digit would be.
+
+
